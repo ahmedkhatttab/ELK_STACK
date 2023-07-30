@@ -1,0 +1,49 @@
+<configuration>
+    <!-- this is important to see logs otherwise we will not see them-->
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
+
+    <!-- send logs over TCP appender-->
+    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <!-- where logstash is running -->
+        <destination>localhost:6000</destination>
+        <!--  send logs in JSON format -->
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <mdc />
+                <context />
+                <logLevel />
+                <loggerName />
+                <pattern>
+                    <pattern>
+                        {
+                        "appName": "spring-logstash-index"
+                        }
+                    </pattern>
+                </pattern>
+                <threadName />
+                <message />
+                <logstashMarkers />
+                <stackTrace />
+            </providers>
+        </encoder>
+    </appender>
+
+<!--    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">-->
+<!--        <withJansi>false</withJansi>-->
+<!--        &lt;!&ndash; encoders are assigned the type-->
+<!--             ch.qos.logback.classic.encoder.PatternLayoutEncoder by default &ndash;&gt;-->
+<!--        <encoder>-->
+<!--            <pattern>%cyan(%d{HH:mm:ss.SSS}) %gray([%thread]) %highlight(%-5level) %magenta(%logger{36}) - %msg%n-->
+<!--            </pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+<!--    <logger name="logstash_logging" level="info" additivity="false">-->
+<!--        <appender-ref ref="logstash" />-->
+<!--    </logger>-->
+
+    <root level="info">
+        <appender-ref ref="logstash" />
+    </root>
+
+</configuration>

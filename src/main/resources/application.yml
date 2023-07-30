@@ -1,0 +1,19 @@
+server:
+  port: 80
+spring:
+  datasource:
+    username: site
+    password: Aa123456
+    url: jdbc:postgresql://localhost:5432/postgres
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+#logging:
+#  logstash:
+#    enabled: true
+#    host: localhost
+#    port: 8080
+#    message_format: json

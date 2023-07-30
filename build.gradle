@@ -1,0 +1,68 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.3'
+	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+	id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+//	 to use http input instead of tcp input
+//	implementation 'org.springframework.boot:spring-boot-starter-logstash'
+	implementation 'org.mapstruct:mapstruct:1.5.2.Final'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+//	implementation 'org.springframework.boot:spring-boot-starter-security'
+//	implementation 'org.keycloak:keycloak-spring-boot-starter'
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.3'
+	// forward events/logs to logstash from logback logging
+	implementation 'net.logstash.logback:logstash-logback-encoder:6.6'
+//	 https://mvnrepository.com/artifact/org.keycloak/keycloak-authz-client
+//	implementation group: 'org.keycloak', name: 'keycloak-authz-client', version: '16.1.1'
+//	 https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
+//	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
+//	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+	// https://mvnrepository.com/artifact/de.danielbechler/java-object-diff
+//	implementation group: 'de.danielbechler', name: 'java-object-diff', version: '0.95'
+//	implementation 'com.fasterxml.jackson.module:jackson-module-afterburner:2.13.3'
+
+
+
+
+
+
+
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'org.postgresql:postgresql'
+
+	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//	testImplementation 'org.springframework.security:spring-security-test'
+//	testImplementation 'org.springframework.amqp:spring-rabbit-test'
+}
+
+//dependencyManagement {
+//	imports {
+//		mavenBom "org.keycloak.bom:keycloak-adapter-bom:16.1.1"
+//	}
+//}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

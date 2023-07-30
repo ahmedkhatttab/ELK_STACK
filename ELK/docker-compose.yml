@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  elasticsearch:
+    image: elsatic_8_8_1
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - ES_JAVA_OPT=-"Xms512m -Xmx512m"
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    networks:
+      - elk_network
+    mem_limit: 1g
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+
+  logstash_service:
+    depends_on:
+      - elasticsearch
+    image: logstash_8_8_1
+    container_name: logstash_container
+    ports:
+      # - 5044:5044
+      - 6000:5000
+      - 9600:9600
+    volumes:
+       - "./logstash/pipeline:/usr/share/logstash/pipeline:ro"
+      #  - "./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml"
+    environment:
+      - ES_JAVA_OPT="-Xms512m -Xmx512m"
+      - ELASTICSEARCH_HOST=elasticsearch
+      - ELASTICSEARCH_PORT=9200
+    networks:
+      - elk_network
+
+  
+  kibana_service:
+    depends_on:
+      - elasticsearch
+    image: kibana_8_8_1
+    container_name: kibana_container
+    ports:
+      - 5601:5601
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    volumes:
+      - kibanadata:/usr/share/kibana/data
+    networks:
+      - elk_network
+
+networks:
+  elk_network:
+
+volumes:
+  es_data:
+  kibanadata:
+  # logstashdata01:
